@@ -18,8 +18,8 @@ public abstract class LiquidPixel extends Pixel {
      * @param freezePoint The freezing point of the pixel
      * @param vapPoint    The vaporization point of the pixel
      */
-    LiquidPixel(int x, int y, double temp, double freezePoint, double vapPoint) {
-        super(x, y, temp, PixelType.LIQUID);
+    LiquidPixel(double temp, double freezePoint, double vapPoint) {
+        super(temp, PixelType.LIQUID);
         this.freezePoint = freezePoint;
         this.vapPoint = vapPoint;
     }

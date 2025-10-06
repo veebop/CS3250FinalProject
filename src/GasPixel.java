@@ -17,8 +17,8 @@ public abstract class GasPixel extends Pixel {
      * @param condPoint The condensation point of the pixel
      * @param depPoint  The deposition point of the pixel
      */
-    public GasPixel(int x, int y, double temp, double condPoint, double depPoint) {
-        super(x, y, temp, PixelType.GAS);
+    public GasPixel(double temp, double condPoint, double depPoint) {
+        super(temp, PixelType.GAS);
         this.condPoint = condPoint;
         this.depPoint = depPoint;
     }

@@ -21,7 +21,6 @@ public class ControlsScene extends VBox {
             stopSimButton.setDisable(true);
         });
 
-
         getChildren().addAll(title, startSimButton, stopSimButton);
     }
 }

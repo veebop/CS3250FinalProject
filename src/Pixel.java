@@ -1,14 +1,6 @@
 public abstract class Pixel {
 
     /**
-     * Holds the x (horizonal) coordinate of the pixel.
-     */
-    private int x;
-    /**
-     * Holds the y (vertical) coordinate of the pixel.
-     */
-    private int y;
-    /**
      * Holds the horizontal velocity of the pixel.
      */
     private double vx;
@@ -20,6 +12,7 @@ public abstract class Pixel {
      * The temperature of the picture
      */
     private double temp;
+    // TODO: Add color of the pixel as part of the class
     /**
      * The type of the pixel.
      */
@@ -33,49 +26,11 @@ public abstract class Pixel {
      * @param temp The starting temperature of the pixel
      * @param type The PixelType of the pixel
      */
-    public Pixel(int x, int y, double temp, PixelType type) {
-        this.x = x;
-        this.y = y;
+    public Pixel(double temp, PixelType type) {
         this.vx = 0;
         this.vy = 0;
         this.temp = temp;
         this.type = type;
-    }
-
-    /**
-     * Gets the horizontal position of the pixel.
-     *
-     * @return The horizontal position of the pixel.
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Sets the horizontal position of the pixel.
-     *
-     * @param x The horizontal position to set a pixel to
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * Gets the vertical position of the pixel
-     *
-     * @return The vertical position of the pixel.
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * Sets the vertical position of a pixel.
-     *
-     * @param y The vertical position to set a pixel to
-     */
-    public void setY(int y) {
-        this.y = y;
     }
 
     /**
@@ -144,15 +99,14 @@ public abstract class Pixel {
     /**
      * Moves a pixel based off of its velocity & gravity
      */
-    public abstract void move();
+    public void move() {
+        System.out.println(this.toString());
+    };
 
     /**
      * Types that a pixel can be.
      */
     public enum PixelType {
-        SOLID,
-        LIQUID,
-        GAS,
-        FIRE,
+        SOLID, LIQUID, GAS, FIRE,
     }
 }

@@ -18,8 +18,8 @@ public abstract class SolidPixel extends Pixel {
      * @param meltPoint The melting point of the pixel
      * @param subPoint  The sublimation point of the pixel
      */
-    SolidPixel(int x, int y, double temp, double meltPoint, double subPoint) {
-        super(x, y, temp, Pixel.PixelType.SOLID);
+    SolidPixel(double temp, double meltPoint, double subPoint) {
+        super(temp, Pixel.PixelType.SOLID);
         this.meltPoint = meltPoint;
         this.subPoint = subPoint;
     }
