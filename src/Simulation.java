@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class Simulation {
     private final int width;
     private final int height;
-    private final HashMap<Integer, Pixel> pixels;
+    private HashMap<Integer, Pixel> pixels;
 
     /**
      * Constructor for Simulation
@@ -65,6 +65,30 @@ public class Simulation {
     public void setPixel(Pixel pixel, int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             pixels.put(x + y * width, pixel);
+        }
+    }
+    
+    /**
+     * Moves the pixels down one
+     * TODO: Actually do physics things here, collision, etc.
+     */
+    public void movePixels() {
+        HashMap<Integer, Pixel> newPixels = new HashMap<>();
+
+        for (HashMap.Entry<Integer, Pixel> entry : this.pixels.entrySet()) {
+            int i = entry.getKey();
+            Pixel p = entry.getValue();
+            
+            // If there is room below the pixel
+            if (i + this.getWidth() < (this.width * this.height)) {
+                // Add the pixel to the new HashMap lower
+                newPixels.put(i + this.getWidth(), p);
+            } else {
+                // Keep the pixel where it is
+                newPixels.put(i, p);
+            }
+            // Set pixels to the new HashMap
+            this.pixels = newPixels;
         }
     }
 }

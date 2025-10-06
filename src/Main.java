@@ -1,6 +1,3 @@
-import java.util.Map;
-import java.util.Map.Entry;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -9,6 +6,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private static Simulation sim;
+
+    private static SimulationCanvas simCanvas;
 
     public static void main(String[] args) {
         launch(args);
@@ -19,7 +18,10 @@ public class Main extends Application {
         sim = new Simulation(50, 50);
 
         HBox hbox = new HBox();
-        hbox.getChildren().addAll(new SimulationCanvas(sim), new ControlsScene());
+        simCanvas = new SimulationCanvas(sim);
+        ControlsScene controlsScene = new ControlsScene();
+
+        hbox.getChildren().addAll(simCanvas, controlsScene);
 
         Scene scene = new Scene(hbox, 1000, 1000, Color.WHITESMOKE);
         stage.setScene(scene);
@@ -30,5 +32,6 @@ public class Main extends Application {
         for (Pixel pixel : sim.getPixels().values()) {
             System.out.println(pixel);
         }
+        simCanvas.startSim();
     }
 }
