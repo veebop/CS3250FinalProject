@@ -5,33 +5,42 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static Simulation sim;
+	/**
+	 * The current simulation being shown
+	 */
+	private static Simulation sim;
 
-    private static SimulationCanvas simCanvas;
+	/**
+	 * Visual representation of the simulation
+	 */
+	private static SimulationCanvas simCanvas;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        sim = new Simulation(50, 50);
+	@Override
+	public void start(Stage stage) throws Exception {
+		sim = new Simulation(50, 50);
 
-        HBox hbox = new HBox();
-        simCanvas = new SimulationCanvas(sim);
-        ControlsScene controlsScene = new ControlsScene();
+		HBox hbox = new HBox();
+		simCanvas = new SimulationCanvas(sim);
+		ControlsScene controlsScene = new ControlsScene();
 
-        hbox.getChildren().addAll(simCanvas, controlsScene);
+		hbox.getChildren().addAll(simCanvas, controlsScene);
 
-        Scene scene = new Scene(hbox, 1000, 1000, Color.WHITESMOKE);
-        stage.setScene(scene);
-        stage.show();
-    }
+		Scene scene = new Scene(hbox, 1000, 1000, Color.WHITESMOKE);
+		stage.setScene(scene);
+		stage.show();
+	}
 
-    public static void startSim() {
-        for (Pixel pixel : sim.getPixels().values()) {
-            System.out.println(pixel);
-        }
-        simCanvas.startSim();
-    }
+	/**
+	 * This function starts the simulation that is being shown
+	 */
+	public static void startSim() {
+		for (Pixel pixel : sim.getPixels().values()) {
+			System.out.println(pixel);
+		}
+		simCanvas.startSim();
+	}
 }

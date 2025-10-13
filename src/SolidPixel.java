@@ -1,3 +1,4 @@
+// This class represents a solid pixel
 public abstract class SolidPixel extends Pixel {
 
     /**
@@ -12,8 +13,6 @@ public abstract class SolidPixel extends Pixel {
     /**
      * Constructor for solid pixels
      *
-     * @param x         The starting horizontal position of the pixel
-     * @param y         The starting vertical position of the pixel
      * @param temp      The starting temperature of the pixel
      * @param meltPoint The melting point of the pixel
      * @param subPoint  The sublimation point of the pixel
