@@ -1,16 +1,10 @@
+import java.util.List;
+
 /**
  * Represents a pixel, the basic object of the simulation
  */
 public abstract class Pixel {
 
-	/**
-	 * Holds the horizontal velocity of the pixel.
-	 */
-	private double vx;
-	/**
-	 * Holds the vertical velocity of the pixel.
-	 */
-	private double vy;
 	/**
 	 * The temperature of the picture
 	 */
@@ -28,8 +22,6 @@ public abstract class Pixel {
 	 * @param type The PixelType of the pixel
 	 */
 	public Pixel(double temp, PixelType type) {
-		this.vx = 0;
-		this.vy = 0;
 		this.temp = temp;
 		this.type = type;
 	}
@@ -62,52 +54,17 @@ public abstract class Pixel {
 	}
 
 	/**
-	 * Gets the horizontal velocity of the pixel.
-	 *
-	 * @return The horizontal velocity of the pixel.
+	 * Gets potential move locations for a pixel, in order of priority
+	 * 
+	 * @return A list of integers, where each two represent the relative movement a
+	 *         pixel could make
 	 */
-	public double getVx() {
-		return vx;
-	}
-
-	/**
-	 * Sets the horizontal velocity of the pixel.
-	 *
-	 * @param vx The horizontal velocity to set the pixel to.
-	 */
-	public void setVx(double vx) {
-		this.vx = vx;
-	}
-
-	/**
-	 * Gets the vertical velocity of the pixel.
-	 *
-	 * @return The vertical velocity of the pixel.
-	 */
-	public double getVy() {
-		return vy;
-	}
-
-	/**
-	 * Sets the horizontal velocity of the pixel.
-	 *
-	 * @param vy The vertical velocity to set the pixel to.
-	 */
-	public void setVy(double vy) {
-		this.vy = vy;
-	}
-
-	/**
-	 * Moves a pixel based off of its velocity & gravity
-	 */
-	public void move() {
-		System.out.println(this.toString());
-	};
+	public abstract List<Integer> move();
 
 	/**
 	 * Types that a pixel can be.
 	 */
 	public enum PixelType {
-		SOLID, LIQUID, GAS, FIRE,
+		STATIC, DYNAMIC, LIQUID, GAS, FIRE,
 	}
 }

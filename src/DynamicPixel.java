@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents solid dynamic (affected by physics) pixels
  */
@@ -10,6 +13,29 @@ public abstract class DynamicPixel extends SolidPixel {
 	 * @param subPoint  Sublimation point of the pixel
 	 */
 	public DynamicPixel(double temp, double meltPoint, double subPoint) {
-		super(temp, meltPoint, subPoint);
+		super(Pixel.PixelType.DYNAMIC, temp, meltPoint, subPoint);
+	}
+
+	/**
+	 * Dynamic pixels can move down one, down one and horizontal one, or stay still
+	 * in that priority.
+	 */
+	@Override
+	public List<Integer> move() {
+		List<Integer> moveLocations = new ArrayList<>();
+
+		// Move straight down
+		moveLocations.add(0);
+		moveLocations.add(1);
+
+		// Move straight down + horizontal
+		moveLocations.add(Math.random() > .5 ? 1 : -1); // Randomly decide between left and right
+		moveLocations.add(1);
+
+		// Stay in place
+		moveLocations.add(0);
+		moveLocations.add(0);
+
+		return moveLocations;
 	}
 }

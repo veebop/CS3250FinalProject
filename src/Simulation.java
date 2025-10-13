@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class representing a simulation
@@ -83,26 +84,41 @@ public class Simulation {
 	}
 
 	/**
-	 * Moves the pixels down one TODO: Actually do physics things here, collision,
-	 * etc.
+	 * Moves the pixels
 	 */
 	public void movePixels() {
 		HashMap<Integer, Pixel> newPixels = new HashMap<>();
 
+		// Because all static pixels cannot move and other pixels cannot overwrite
+		// them, we place them in the new hashmap first
 		for (HashMap.Entry<Integer, Pixel> entry : this.pixels.entrySet()) {
-			int i = entry.getKey();
-			Pixel p = entry.getValue();
-
-			// If there is room below the pixel
-			if (i + this.getWidth() < (this.width * this.height)) {
-				// Add the pixel to the new HashMap lower
-				newPixels.put(i + this.getWidth(), p);
-			} else {
-				// Keep the pixel where it is
-				newPixels.put(i, p);
+			if (entry.getValue().getType() == Pixel.PixelType.STATIC) {
+				newPixels.put(entry.getKey(), entry.getValue());
 			}
-			// Set pixels to the new HashMap
-			this.pixels = newPixels;
 		}
+
+		// Now we handle all the other pixels
+		// We want to loop bottom to top, since most pixels fall down
+		for (int i = this.height * this.width - 1; i >= 0; i--) {
+			if (this.pixels.containsKey(i) && this.pixels.get(i).getType() != Pixel.PixelType.STATIC) {
+				Pixel p = this.pixels.get(i);
+				List<Integer> moveLocations = p.move();
+
+				// Loop through the new possible locations
+				for (int j = 0; j < moveLocations.size(); j += 2) {
+					int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
+					// If the spot isn't taken and is in bounds, move the pixel there
+					if (!newPixels.containsKey(newLocation) && newLocation >= 0
+							&& newLocation < this.width * this.height) {
+						newPixels.put(newLocation, p);
+						// We moved this pixel, move to the next one
+						break;
+					}
+				}
+			}
+		}
+
+		// Update the list of pixels
+		this.pixels = newPixels;
 	}
 }

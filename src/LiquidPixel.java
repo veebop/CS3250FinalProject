@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents liquid pixels
  */
@@ -56,5 +59,28 @@ public abstract class LiquidPixel extends Pixel {
 	 * @return The newly created gas pixel
 	 */
 	public abstract GasPixel vaporize();
+
+	@Override
+	public List<Integer> move() {
+		List<Integer> moveLocations = new ArrayList<>();
+
+		// Move straight down
+		moveLocations.add(0);
+		moveLocations.add(1);
+
+		// Move down + horizontal
+		moveLocations.add(Math.random() > .5 ? 1 : -1); // Randomly decide between left and right
+		moveLocations.add(1); 
+
+		// Move horizontal only
+		moveLocations.add(Math.random() > .5 ? 1 : -1); // Randomly decide between left and right
+		moveLocations.add(0);
+
+		// Stay in place
+		moveLocations.add(0);
+		moveLocations.add(0);
+
+		return moveLocations;
+	}
 
 }

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents gas pixels
  */
@@ -55,4 +58,27 @@ public abstract class GasPixel extends Pixel {
 	 * @return THe newly created solid pixel
 	 */
 	public abstract SolidPixel deposit();
+
+	@Override
+	public List<Integer> move() {
+		List<Integer> moveLocations = new ArrayList<>();
+
+		// Move straight up
+		moveLocations.add(0);
+		moveLocations.add(-1);
+
+		// Move up + horizontal
+		moveLocations.add(Math.random() > .5 ? 1 : -1); // Randomly decide between left and right
+		moveLocations.add(-1);
+
+		// Move horizontal only
+		moveLocations.add(Math.random() > .5 ? 1 : -1);
+		moveLocations.add(0);
+
+		// Stay in place
+		moveLocations.add(0);
+		moveLocations.add(0);
+
+		return moveLocations;
+	}
 }
