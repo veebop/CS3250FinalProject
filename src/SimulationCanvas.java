@@ -16,6 +16,10 @@ public class SimulationCanvas extends Canvas {
 	 * simulation graphics can be scaled up
 	 */
 	private double pixelRatio;
+	/**
+	 * Whether the simulation should be running or not
+	 */
+	private boolean running;
 
 	/**
 	 * The constructor for the SimulationCanvas
@@ -27,9 +31,12 @@ public class SimulationCanvas extends Canvas {
 
 		this.sim = sim;
 
+		this.running = false;
+
 		GraphicsContext gc = this.getGraphicsContext2D();
 		pixelRatio = this.getWidth() / sim.getWidth();
 
+		// TODO: Add pixels with mouse events
 		// Add test pixels to simulation
 		for (int i = 0; i < 3; i++) {
 			sim.setPixel(new SandPixel(10), i * 10, i * 10);
@@ -44,9 +51,6 @@ public class SimulationCanvas extends Canvas {
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-		// Test drawing to the canvas
-		gc.setFill(Color.SANDYBROWN);
-
 		// Iterate over the pixels and draw them on the canvas
 		for (int x = 0; x < sim.getWidth(); x++) {
 			for (int y = 0; y < sim.getHeight(); y++) {
@@ -58,17 +62,34 @@ public class SimulationCanvas extends Canvas {
 				}
 			}
 		}
+		AnimationTimer animationTimer = createAnimationTimer();
+
+		animationTimer.start();
 	}
 
 	/**
-	 * This function animates the simulation
+	 * This function starts the simulation
 	 */
 	public void startSim() {
-		GraphicsContext gc = this.getGraphicsContext2D();
-		double width = this.getWidth();
-		double height = this.getHeight();
+		running = true;
+	}
 
-		new AnimationTimer() {
+	/**
+	 * This function stops the simulation
+	 */
+	public void stopSim() {
+		running = false;
+	}
+
+	/**
+	 * This function creates the animation timer to animate the simulation
+	 */
+	private AnimationTimer createAnimationTimer() {
+		GraphicsContext gc = this.getGraphicsContext2D();
+		double canvasWidth = this.getWidth();
+		double canvasHeight = this.getHeight();
+
+		return new AnimationTimer() {
 			long lastUpdate = System.nanoTime();
 			private final long DELAY = 30_000_000; // ~33 fps
 
@@ -77,7 +98,7 @@ public class SimulationCanvas extends Canvas {
 				if (now - lastUpdate >= DELAY) {
 					// Draw background
 					gc.setFill(Color.LIGHTBLUE);
-					gc.fillRect(0, 0, width, height);
+					gc.fillRect(0, 0, canvasWidth, canvasHeight);
 
 					// Iterate over the pixels and draw them on the canvas
 					for (int x = 0; x < sim.getWidth(); x++) {
@@ -90,12 +111,15 @@ public class SimulationCanvas extends Canvas {
 							}
 						}
 					}
-					// Move the pixels
-					sim.movePixels();
+
+					if (running) {
+						// Move the pixels
+						sim.movePixels();
+					}
 
 					lastUpdate = now;
 				}
 			}
-		}.start();
+		};
 	}
 }

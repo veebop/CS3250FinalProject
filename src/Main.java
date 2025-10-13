@@ -43,4 +43,9 @@ public class Main extends Application {
 		}
 		simCanvas.startSim();
 	}
+
+	public static void stopSim() {
+		System.out.println("Main stop");
+		simCanvas.stopSim();
+	}
 }
