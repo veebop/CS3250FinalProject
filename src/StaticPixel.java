@@ -5,8 +5,19 @@ import java.util.List;
  * This class represents a solid static (not affected by physics) pixel
  */
 public abstract class StaticPixel extends SolidPixel {
-	public StaticPixel(double temp, double meltPoint, double subPoint) {
-		super(Pixel.PixelType.STATIC, temp, meltPoint, subPoint);
+	/**
+	 * Constructor for a static pixel
+	 * 
+	 * @param temp      The starting temperature of the pixel
+	 * @param meltPoint The melting point of the pixel
+	 * @param subPoint  The sublimation point of the pixel
+	 * @param r         The red color value of the pixel
+	 * @param g         The green color value of the pixel
+	 * @param b         The blue color value of the pixel
+	 * @param a         The alpha value of the pixel
+	 */
+	public StaticPixel(double temp, double meltPoint, double subPoint, int r, int g, int b, int a) {
+		super(Pixel.PixelType.STATIC, temp, meltPoint, subPoint, r, g, b, a);
 	}
 
 	/**

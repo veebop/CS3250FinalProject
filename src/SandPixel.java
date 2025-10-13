@@ -9,7 +9,10 @@ public class SandPixel extends DynamicPixel {
 	 * @param temp Starting temperature of the sand pixel
 	 */
 	public SandPixel(double temp) {
-		super(temp, 1700.0, Double.MAX_VALUE);
+		// We use rand here to add some variation to the color
+		super(temp, 1700.0, Double.MAX_VALUE, (int) (Math.random() * 255), (int) (Math.random() * 255),
+				(int) (Math.random() * 255), 255);
+		// TODO: Change this back to normal, somewhere around 244, 164, 96 is nice
 	}
 
 	/**

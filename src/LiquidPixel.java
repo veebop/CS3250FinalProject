@@ -22,8 +22,8 @@ public abstract class LiquidPixel extends Pixel {
 	 * @param freezePoint The freezing point of the pixel
 	 * @param vapPoint    The vaporization point of the pixel
 	 */
-	LiquidPixel(double temp, double freezePoint, double vapPoint) {
-		super(temp, PixelType.LIQUID);
+	LiquidPixel(double temp, double freezePoint, double vapPoint, int r, int g, int b, int a) {
+		super(PixelType.LIQUID, temp, r, g, b, a);
 		this.freezePoint = freezePoint;
 		this.vapPoint = vapPoint;
 	}
@@ -70,7 +70,7 @@ public abstract class LiquidPixel extends Pixel {
 
 		// Move down + horizontal
 		moveLocations.add(Math.random() > .5 ? 1 : -1); // Randomly decide between left and right
-		moveLocations.add(1); 
+		moveLocations.add(1);
 
 		// Move horizontal only
 		moveLocations.add(Math.random() > .5 ? 1 : -1); // Randomly decide between left and right

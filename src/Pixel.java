@@ -9,21 +9,40 @@ public abstract class Pixel {
 	 * The temperature of the picture
 	 */
 	private double temp;
-	// TODO: Add color of the pixel as part of the class
+
+	/**
+	 * The color of the pixel
+	 */
+	private PixelColor color;
+
 	/**
 	 * The type of the pixel.
 	 */
 	private final PixelType type;
 
 	/**
-	 * Pixel class constructor, intended to only be used by children
+	 * Pixel class constructor
 	 *
-	 * @param temp The starting temperature of the pixel
 	 * @param type The PixelType of the pixel
+	 * @param temp The starting temperature of the pixel
+	 * @param r    The red color value of the pixel
+	 * @param g    The green color value of the pixel
+	 * @param b    The blue color value of the pixel
+	 * @param a    The alpha value of the pixel
 	 */
-	public Pixel(double temp, PixelType type) {
+	public Pixel(PixelType type, double temp, int r, int g, int b, int a) {
+		this.color = new PixelColor(r, g, b, a);
 		this.temp = temp;
 		this.type = type;
+	}
+
+	/**
+	 * Returns the color of the pixel
+	 * 
+	 * @return Color of the pixel
+	 */
+	public PixelColor getColor() {
+		return this.color;
 	}
 
 	/**

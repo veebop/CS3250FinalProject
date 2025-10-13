@@ -20,9 +20,13 @@ public abstract class GasPixel extends Pixel {
 	 * @param temp      The starting temperature of the pixel
 	 * @param condPoint The condensation point of the pixel
 	 * @param depPoint  The deposition point of the pixel
+	 * @param r         The red color value of the pixel
+	 * @param g         The green color value of the pixel
+	 * @param b         The blue color value of the pixel
+	 * @param a         The alpha value of the pixel
 	 */
-	public GasPixel(double temp, double condPoint, double depPoint) {
-		super(temp, PixelType.GAS);
+	public GasPixel(double temp, double condPoint, double depPoint, int r, int g, int b, int a) {
+		super(PixelType.GAS, temp, r, g, b, a);
 		this.condPoint = condPoint;
 		this.depPoint = depPoint;
 	}

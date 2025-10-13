@@ -50,7 +50,10 @@ public class SimulationCanvas extends Canvas {
 		// Iterate over the pixels and draw them on the canvas
 		for (int x = 0; x < sim.getWidth(); x++) {
 			for (int y = 0; y < sim.getHeight(); y++) {
-				if (sim.getPixel(x, y) != null) {
+				Pixel pixel = sim.getPixel(x, y);
+				if (pixel != null) {
+					PixelColor color = pixel.getColor();
+					gc.setFill(Color.rgb(color.getR(), color.getG(), color.getB(), color.getA()));
 					gc.fillRect(x * pixelRatio, y * pixelRatio, pixelRatio, pixelRatio);
 				}
 			}
@@ -77,11 +80,12 @@ public class SimulationCanvas extends Canvas {
 					gc.fillRect(0, 0, width, height);
 
 					// Iterate over the pixels and draw them on the canvas
-					gc.setFill(Color.SANDYBROWN);
 					for (int x = 0; x < sim.getWidth(); x++) {
 						for (int y = 0; y < sim.getHeight(); y++) {
 							Pixel pixel = sim.getPixel(x, y);
 							if (pixel != null) {
+								PixelColor color = pixel.getColor();
+								gc.setFill(Color.rgb(color.getR(), color.getG(), color.getB(), color.getA()));
 								gc.fillRect(x * pixelRatio, y * pixelRatio, pixelRatio, pixelRatio);
 							}
 						}
