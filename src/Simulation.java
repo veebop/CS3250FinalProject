@@ -84,9 +84,9 @@ public class Simulation {
 	}
 
 	/**
-	 * Moves the pixels
+	 * Runs one tick of the simulation.
 	 */
-	public void movePixels() {
+	public void tick() {
 		HashMap<Integer, Pixel> newPixels = new HashMap<>();
 
 		// Because all static pixels cannot move and other pixels cannot overwrite
@@ -105,6 +105,7 @@ public class Simulation {
 				List<Integer> moveLocations = p.move();
 
 				// Loop through the new possible locations
+				// FIXME: Pixels wrap around edges
 				for (int j = 0; j < moveLocations.size(); j += 2) {
 					int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
 					// If the spot isn't taken and is in bounds, move the pixel there

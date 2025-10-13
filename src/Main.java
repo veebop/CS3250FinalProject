@@ -38,14 +38,13 @@ public class Main extends Application {
 	 * This function starts the simulation that is being shown
 	 */
 	public static void startSim() {
-		for (Pixel pixel : sim.getPixels().values()) {
-			System.out.println(pixel);
-		}
 		simCanvas.startSim();
 	}
 
+	/**
+	 * This function stops the simulation that is being shown
+	 */
 	public static void stopSim() {
-		System.out.println("Main stop");
 		simCanvas.stopSim();
 	}
 }

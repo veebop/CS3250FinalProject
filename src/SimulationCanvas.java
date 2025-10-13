@@ -20,6 +20,14 @@ public class SimulationCanvas extends Canvas {
 	 * Whether the simulation should be running or not
 	 */
 	private boolean running;
+	/**
+	 * Horizontal location of the brush (where a new pixel will be placed)
+	 */
+	private double brushX;
+	/**
+	 * Vertical location of the brush (where a new pixel will be placed)
+	 */
+	private double brushY;
 
 	/**
 	 * The constructor for the SimulationCanvas
@@ -36,17 +44,6 @@ public class SimulationCanvas extends Canvas {
 		GraphicsContext gc = this.getGraphicsContext2D();
 		pixelRatio = this.getWidth() / sim.getWidth();
 
-		// TODO: Add pixels with mouse events
-		// Add test pixels to simulation
-		for (int i = 0; i < 3; i++) {
-			sim.setPixel(new SandPixel(10), i * 10, i * 10);
-		}
-		// And some random pixels
-		for (int i = 0; i < 25; i++) {
-			sim.setPixel(new SandPixel(10), (int) (Math.random() * sim.getWidth()),
-					(int) (Math.random() * sim.getHeight()));
-		}
-
 		// Draw background
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -62,6 +59,36 @@ public class SimulationCanvas extends Canvas {
 				}
 			}
 		}
+
+		// Create event to draw brush
+		this.setOnMouseMoved(event -> {
+			brushX = (int) (event.getX() / this.getWidth() * sim.getWidth()) * pixelRatio;
+			brushY = (int) (event.getY() / this.getWidth() * sim.getWidth()) * pixelRatio;
+		});
+
+		// Create a new pixel on click/drag
+		// TODO: Pixels should be created regularly while the mouse is held, not one
+		// time when the mouse is pressed
+		this.setOnMousePressed(event -> {
+			addPixel();
+		});
+		this.setOnMouseDragged(event -> {
+			double oldX = brushX;
+			double oldY = brushY;
+			brushX = (int) (event.getX() / this.getWidth() * sim.getWidth()) * pixelRatio;
+			brushY = (int) (event.getY() / this.getWidth() * sim.getWidth()) * pixelRatio;
+			if (brushX != oldX || brushY != oldY) {
+				addPixel();
+			}
+		});
+
+		// Hide brush if it is outside the canvas
+		this.setOnMouseExited(event -> {
+			brushX = Double.NaN;
+		});
+
+		// TODO: Event to resize canvas
+
 		AnimationTimer animationTimer = createAnimationTimer();
 
 		animationTimer.start();
@@ -82,12 +109,26 @@ public class SimulationCanvas extends Canvas {
 	}
 
 	/**
+	 * Adds a new pixel to the simulation
+	 */
+	private void addPixel() {
+		int pixelX = (int) (brushX / pixelRatio);
+		int pixelY = (int) (brushY / pixelRatio);
+		if (brushX >= 0 && sim.getPixel(pixelX, pixelY) == null) {
+			// TODO: Add different kinds of pixels based on selection
+			sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
+		}
+	}
+
+	/**
 	 * This function creates the animation timer to animate the simulation
 	 */
 	private AnimationTimer createAnimationTimer() {
 		GraphicsContext gc = this.getGraphicsContext2D();
 		double canvasWidth = this.getWidth();
 		double canvasHeight = this.getHeight();
+
+		gc.setStroke(Color.BLACK);
 
 		return new AnimationTimer() {
 			long lastUpdate = System.nanoTime();
@@ -112,9 +153,14 @@ public class SimulationCanvas extends Canvas {
 						}
 					}
 
+					// Draw the brush
+					if (!Double.isNaN(brushX)) {
+						gc.strokeRect(brushX, brushY, pixelRatio, pixelRatio);
+					}
+
 					if (running) {
-						// Move the pixels
-						sim.movePixels();
+						// Run one tick of the simulation
+						sim.tick();
 					}
 
 					lastUpdate = now;
