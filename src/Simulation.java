@@ -105,12 +105,13 @@ public class Simulation {
 				List<Integer> moveLocations = p.move();
 
 				// Loop through the new possible locations
-				// FIXME: Pixels wrap around edges
 				for (int j = 0; j < moveLocations.size(); j += 2) {
 					int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
 					// If the spot isn't taken and is in bounds, move the pixel there
 					if (!newPixels.containsKey(newLocation) && newLocation >= 0
-							&& newLocation < this.width * this.height) {
+							&& newLocation < this.width * this.height
+							// Stop pixels from wrapping around the edges
+							&& (i % width) + moveLocations.get(j) >= 0 && (i % width) + moveLocations.get(j) < width) {
 						newPixels.put(newLocation, p);
 						// We moved this pixel, move to the next one
 						break;
