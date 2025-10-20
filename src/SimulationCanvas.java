@@ -28,6 +28,10 @@ public class SimulationCanvas extends Canvas {
 	 * Vertical location of the brush (where a new pixel will be placed)
 	 */
 	private double brushY;
+	/**
+	 * This boolean should be set to true to show some debug information
+	 */
+	private boolean debug = true;
 
 	/**
 	 * The constructor for the SimulationCanvas
@@ -132,6 +136,7 @@ public class SimulationCanvas extends Canvas {
 
 		return new AnimationTimer() {
 			long lastUpdate = System.nanoTime();
+			// NOTE: AnimationTimer is locked to the user's refresh rate
 			private final long DELAY = 30_000_000; // ~33 fps
 
 			@Override
@@ -163,6 +168,10 @@ public class SimulationCanvas extends Canvas {
 						sim.tick();
 					}
 
+					if (debug) {
+						gc.setFill(Color.BLACK);
+						gc.fillText(1_000_000_000 / (now - lastUpdate) + " fps", 0, gc.getFont().getSize());
+					}
 					lastUpdate = now;
 				}
 			}
