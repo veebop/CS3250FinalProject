@@ -1,6 +1,7 @@
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 
 /**
@@ -41,9 +42,13 @@ public class ControlsScene extends VBox {
 
 		// TODO: Add a slider that changes simulation speed
 
-		// TODO: Add toggle for some debug info
+		ToggleButton showDebug = new ToggleButton("Show Debug Information");
+		showDebug.setOnAction(e -> {
+			Main.setDebug(showDebug.isSelected());
+		});
 
 		getChildren().addAll(title, startSimButton);
 		getChildren().add(brushType);
+		getChildren().add(showDebug);
 	}
 }

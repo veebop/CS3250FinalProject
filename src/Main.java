@@ -56,4 +56,8 @@ public class Main extends Application {
 	public static void setBrush(PixelType type) {
 		simCanvas.setBrush(type);
 	}
+
+	public static void setDebug(boolean showDebug) {
+		simCanvas.setDebug(showDebug);
+	}
 }

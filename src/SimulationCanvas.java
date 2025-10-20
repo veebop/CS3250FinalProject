@@ -31,7 +31,7 @@ public class SimulationCanvas extends Canvas {
 	/**
 	 * This boolean should be set to true to show some debug information
 	 */
-	private boolean debug = true;
+	private boolean debug = false;
 	/**
 	 * The type of pixel to be placed or eraser
 	 */
@@ -123,6 +123,15 @@ public class SimulationCanvas extends Canvas {
 	 */
 	public void setBrush(PixelType type) {
 		this.brushType = type;
+	}
+
+	/**
+	 * This function sets whether debug information should be shown
+	 *
+	 * @param showDebug Whether debug information should be shown
+	 */
+	public void setDebug(boolean showDebug) {
+		debug = showDebug;
 	}
 
 	/**
