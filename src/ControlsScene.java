@@ -6,6 +6,9 @@ import javafx.scene.layout.VBox;
  * This class contains all of the controls for the simulation.
  */
 public class ControlsScene extends VBox {
+
+	private boolean simRunning = false;
+
 	/**
 	 * Constructor for the ControlsScene
 	 */
@@ -14,20 +17,25 @@ public class ControlsScene extends VBox {
 		Label title = new Label("Controls:");
 
 		Button startSimButton = new Button("Start simulation");
-		Button stopSimButton = new Button("Stop simulation");
-		stopSimButton.setDisable(true);
 
 		startSimButton.setOnAction(e -> {
-			startSimButton.setDisable(true);
-			stopSimButton.setDisable(false);
-			Main.startSim();
-		});
-		stopSimButton.setOnAction(e -> {
-			startSimButton.setDisable(false);
-			stopSimButton.setDisable(true);
-			Main.stopSim();
+			if (simRunning) {
+				startSimButton.setText("Start Simulation");
+				Main.stopSim();
+				simRunning = false;
+			} else {
+				startSimButton.setText("Pause Simulation");
+				Main.startSim();
+				simRunning = true;
+			}
 		});
 
-		getChildren().addAll(title, startSimButton, stopSimButton);
+		// TODO: Add a slider that changes simulation speed
+
+		// TODO: Add a dropdown/radials to select pixel type
+
+		// TODO: Add toggle for some debug info
+
+		getChildren().addAll(title, startSimButton);
 	}
 }
