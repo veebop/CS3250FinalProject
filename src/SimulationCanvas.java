@@ -32,6 +32,10 @@ public class SimulationCanvas extends Canvas {
 	 * This boolean should be set to true to show some debug information
 	 */
 	private boolean debug = true;
+	/**
+	 * The type of pixel to be placed or eraser
+	 */
+	private PixelType brushType;
 
 	/**
 	 * The constructor for the SimulationCanvas
@@ -113,14 +117,32 @@ public class SimulationCanvas extends Canvas {
 	}
 
 	/**
+	 * This function sets the brush type
+	 *
+	 * @param type The new type for the brush
+	 */
+	public void setBrush(PixelType type) {
+		this.brushType = type;
+	}
+
+	/**
 	 * Adds a new pixel to the simulation
 	 */
 	private void addPixel() {
 		int pixelX = (int) (brushX / pixelRatio);
 		int pixelY = (int) (brushY / pixelRatio);
-		if (brushX >= 0 && sim.getPixel(pixelX, pixelY) == null) {
-			// TODO: Add different kinds of pixels based on selection
-			sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
+		if (brushX >= 0) {
+			if (sim.getPixel(pixelX, pixelY) == null) {
+				switch (brushType) {
+				case SAND:
+					sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
+					break;
+				default:
+					break;
+				}
+			} else if (brushType == PixelType.ERASER) {
+				sim.deletePixel((int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
+			}
 		}
 	}
 
@@ -172,6 +194,7 @@ public class SimulationCanvas extends Canvas {
 						gc.setFill(Color.BLACK);
 						gc.fillText(1_000_000_000 / (now - lastUpdate) + " fps", 0, gc.getFont().getSize());
 					}
+
 					lastUpdate = now;
 				}
 			}

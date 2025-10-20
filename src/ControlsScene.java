@@ -1,4 +1,5 @@
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -30,12 +31,19 @@ public class ControlsScene extends VBox {
 			}
 		});
 
-		// TODO: Add a slider that changes simulation speed
+		ChoiceBox<PixelType> brushType = new ChoiceBox<>();
+		brushType.getItems().addAll(PixelType.values());
+		brushType.setOnAction(e -> {
+			Main.setBrush(brushType.getValue());
+		});
+		brushType.setValue(PixelType.SAND);
+		Main.setBrush(brushType.getValue());
 
-		// TODO: Add a dropdown/radials to select pixel type
+		// TODO: Add a slider that changes simulation speed
 
 		// TODO: Add toggle for some debug info
 
 		getChildren().addAll(title, startSimButton);
+		getChildren().add(brushType);
 	}
 }

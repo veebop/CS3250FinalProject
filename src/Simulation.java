@@ -84,6 +84,19 @@ public class Simulation {
 	}
 
 	/**
+	 * Deletes the pixel at the specified coordinates
+	 * 
+	 * @param x Horizontal coordinate
+	 * @param y Vertical coordinate
+	 */
+	public void deletePixel(int x, int y) {
+		if (x >= 0 && x < width && y >= 0 && y < height) {
+			System.out.println(x + ", " + y);
+			pixels.remove(x + y * width);
+		}
+	}
+
+	/**
 	 * Runs one tick of the simulation.
 	 */
 	public void tick() {

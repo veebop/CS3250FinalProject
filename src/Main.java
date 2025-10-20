@@ -47,4 +47,13 @@ public class Main extends Application {
 	public static void stopSim() {
 		simCanvas.stopSim();
 	}
+
+	/**
+	 * This function sets the brush type for the current simulation
+	 *
+	 * @param type New brush type
+	 */
+	public static void setBrush(PixelType type) {
+		simCanvas.setBrush(type);
+	}
 }
