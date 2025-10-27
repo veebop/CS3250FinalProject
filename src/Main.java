@@ -57,7 +57,22 @@ public class Main extends Application {
 		simCanvas.setBrush(type);
 	}
 
+	/**
+	 * This function shows/hides debug information on the canvas
+	 *
+	 * @param showDebug Whether to show or hide the debug info
+	 */
 	public static void setDebug(boolean showDebug) {
 		simCanvas.setDebug(showDebug);
+	}
+
+	/**
+	 * This function sets the speed of the simulation by setting how long the time
+	 * between each tick is
+	 *
+	 * @param tickRate The time (in nanoseconds) between each tick
+	 */
+	public static void setTickRate(long tickRate) {
+		simCanvas.setTickRate(tickRate);
 	}
 }

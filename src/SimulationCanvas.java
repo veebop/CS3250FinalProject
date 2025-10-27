@@ -36,10 +36,14 @@ public class SimulationCanvas extends Canvas {
 	 * The type of pixel to be placed or eraser
 	 */
 	private PixelType brushType;
+	/**
+	 * The tick rate (time between each tick) for the simulation
+	 */
+	private long tickRate = 30_000_000;
 
 	/**
 	 * The constructor for the SimulationCanvas
-	 * 
+	 *
 	 * @param sim The simulation this object will represent
 	 */
 	public SimulationCanvas(Simulation sim) {
@@ -135,6 +139,15 @@ public class SimulationCanvas extends Canvas {
 	}
 
 	/**
+	 * This function sets the tick rate of the simulation
+	 *
+	 * @param tickRate The new tick rate, in nanoseconds
+	 */
+	public void setTickRate(long tickRate) {
+		this.tickRate = tickRate;
+	}
+
+	/**
 	 * Adds a new pixel to the simulation
 	 */
 	private void addPixel() {
@@ -165,18 +178,17 @@ public class SimulationCanvas extends Canvas {
 
 		gc.setStroke(Color.BLACK);
 
+		// NOTE: AnimationTimer appears to be locked to 60hz
+		// TODO: Replace AnimationTimer() with custom timer
 		return new AnimationTimer() {
 			long lastUpdate = System.nanoTime();
-			// NOTE: AnimationTimer is locked to the user's refresh rate
-			private final long DELAY = 30_000_000; // ~33 fps
 
 			@Override
 			public void handle(long now) {
-				if (now - lastUpdate >= DELAY) {
+				if (now - lastUpdate >= tickRate) {
 					// Draw background
 					gc.setFill(Color.LIGHTBLUE);
 					gc.fillRect(0, 0, canvasWidth, canvasHeight);
-
 					// Iterate over the pixels and draw them on the canvas
 					for (int x = 0; x < sim.getWidth(); x++) {
 						for (int y = 0; y < sim.getHeight(); y++) {
