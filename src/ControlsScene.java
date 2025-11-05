@@ -45,7 +45,7 @@ public class ControlsScene extends VBox {
 		Main.setBrush(brushTypeChoice.getValue());
 
 		// Simulation speed slider
-		Slider simSpeedSlider = new Slider(1, 120, 30);
+		Slider simSpeedSlider = new Slider(1, 300, 30);
 		// TODO: Add a numerical text box for fine control
 		Label simSpeedLabel = new Label((long) simSpeedSlider.getValue() + " ticks per second");
 		simSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {

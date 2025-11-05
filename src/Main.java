@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -14,6 +15,28 @@ public class Main extends Application {
 	 * Visual representation of the simulation
 	 */
 	private static SimulationCanvas simCanvas;
+
+	/**
+	 * Whether or not the simulation should be running
+	 */
+	private static boolean simRunning;
+
+	/**
+	 * Time that the last tick was run
+	 */
+	private static long lastTick = System.nanoTime();
+	/**
+	 * How often a tick should run, in nanoseconds
+	 */
+	private static long tickDelay = 33_333_333; // 30 hz
+	/**
+	 * Time the the last frame was rendered
+	 */
+	private static long lastRender = System.nanoTime();
+	/**
+	 * How often a frame should render, in nanoseconds
+	 */
+	private static final long RENDER_DELAY = 16_666_667; // ~60 fps
 
 	public static void main(String[] args) {
 		launch(args);
@@ -32,20 +55,55 @@ public class Main extends Application {
 		Scene scene = new Scene(hbox, 1000, 1000, Color.WHITESMOKE);
 		stage.setScene(scene);
 		stage.show();
+
+		new Thread(() -> {
+			long tickTime = Long.MAX_VALUE;
+
+			// Main loop
+			while (stage.isShowing()) {
+				long now = System.nanoTime();
+
+				// Run the simulation one tick
+				if (now - lastTick >= tickDelay && simRunning) {
+					sim.tick();
+					tickTime = now - lastTick;
+					lastTick = System.nanoTime();
+				}
+
+				// Draw the frame to the screen
+				if (now - lastRender >= RENDER_DELAY) {
+					final long tt = tickTime;
+					final long lr = now - lastRender;
+					Platform.runLater(() -> {
+						simCanvas.draw(tt, lr);
+					});
+					lastRender = System.nanoTime();
+				}
+
+				// Sleep so we don't completely pin the CPU, at the cost of somewhat less
+				// accurate ticks/frames per second.
+				long sleepTime = Math.max((Math.min(tickDelay, RENDER_DELAY) - (System.nanoTime() - now)) / 50, 0);
+				try {
+					Thread.sleep(sleepTime / 1_000_000, (int) (sleepTime % 1_000_000));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	/**
 	 * This function starts the simulation that is being shown
 	 */
 	public static void startSim() {
-		simCanvas.startSim();
+		simRunning = true;
 	}
 
 	/**
 	 * This function stops the simulation that is being shown
 	 */
 	public static void stopSim() {
-		simCanvas.stopSim();
+		simRunning = false;
 	}
 
 	/**
@@ -73,6 +131,6 @@ public class Main extends Application {
 	 * @param tickRate The time (in nanoseconds) between each tick
 	 */
 	public static void setTickRate(long tickRate) {
-		simCanvas.setTickRate(tickRate);
+		tickDelay = tickRate;
 	}
 }
