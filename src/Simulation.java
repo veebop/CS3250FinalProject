@@ -104,9 +104,9 @@ public class Simulation {
 
 		// Because all static pixels cannot move and other pixels cannot overwrite
 		// them, we place them in the new hashmap first
-		for (HashMap.Entry<Integer, Pixel> entry : this.pixels.entrySet()) {
-			if (entry.getValue().getType() == Pixel.PixelType.STATIC) {
-				newPixels.put(entry.getKey(), entry.getValue());
+		for (int i = this.height * this.width - 1; i >= 0; i--) {
+			if (this.pixels.containsKey(i) && this.pixels.get(i).getType() == Pixel.PixelType.STATIC) {
+				newPixels.put(i, this.pixels.get(i));
 			}
 		}
 
