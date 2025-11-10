@@ -31,6 +31,10 @@ public class SimulationCanvas extends Canvas {
 	 * The type of pixel to be placed or eraser
 	 */
 	private PixelType brushType;
+	/**
+	 * Whether the mouse is being pressed or not
+	 */
+	private boolean mouseDown;
 
 	/**
 	 * The constructor for the SimulationCanvas
@@ -49,10 +53,12 @@ public class SimulationCanvas extends Canvas {
 		});
 
 		// Create a new pixel on click/drag
-		// TODO: Pixels should be created regularly while the mouse is held, not one
-		// time when the mouse is pressed
 		this.setOnMousePressed(e -> {
 			addPixel();
+			this.mouseDown = true;
+		});
+		this.setOnMouseReleased(e -> {
+			this.mouseDown = false;
 		});
 		this.setOnMouseDragged(e -> {
 			double oldX = brushX;
@@ -84,7 +90,7 @@ public class SimulationCanvas extends Canvas {
 		GraphicsContext gc = this.getGraphicsContext2D();
 		double canvasWidth = this.getWidth();
 		double canvasHeight = this.getHeight();
-		
+
 		pixelRatio = this.getWidth() / sim.getWidth();
 
 		gc.setStroke(Color.BLACK);
@@ -138,21 +144,26 @@ public class SimulationCanvas extends Canvas {
 	/**
 	 * Adds a new pixel to the simulation
 	 */
-	private void addPixel() {
-		int pixelX = (int) (brushX / pixelRatio);
-		int pixelY = (int) (brushY / pixelRatio);
-		if (brushX >= 0) {
-			if (sim.getPixel(pixelX, pixelY) == null) {
-				switch (brushType) {
-				case SAND:
-					sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
-					break;
-				default:
-					break;
+	public boolean addPixel() {
+		if (this.mouseDown) {
+			int pixelX = (int) (brushX / pixelRatio);
+			int pixelY = (int) (brushY / pixelRatio);
+			if (brushX >= 0) {
+				if (sim.getPixel(pixelX, pixelY) == null) {
+					switch (brushType) {
+					case SAND:
+						sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
+						break;
+					default:
+						break;
+					}
+				} else if (brushType == PixelType.ERASER) {
+					sim.deletePixel((int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
 				}
-			} else if (brushType == PixelType.ERASER) {
-				sim.deletePixel((int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
 			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

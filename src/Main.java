@@ -37,6 +37,14 @@ public class Main extends Application {
 	 * How often a frame should render, in nanoseconds
 	 */
 	private static final long RENDER_DELAY = 16_666_667; // ~60 fps
+	/**
+	 * Time since the last pixel was placed
+	 */
+	private static long lastPlace = System.nanoTime();
+	/**
+	 * How often a pixel should be placed while the mouse is held
+	 */
+	private static final long PLACE_DELAY = 100_000_000; // 10hz
 
 	public static void main(String[] args) {
 		launch(args);
@@ -78,6 +86,13 @@ public class Main extends Application {
 						simCanvas.draw(tt, lr);
 					});
 					lastRender = System.nanoTime();
+				}
+
+				// Try to place a new pixel
+				if (now - lastPlace >= PLACE_DELAY) {
+					if (simCanvas.addPixel()) {
+						lastPlace = System.nanoTime();
+					}
 				}
 
 				// Sleep so we don't completely pin the CPU, at the cost of somewhat less
