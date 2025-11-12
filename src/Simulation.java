@@ -100,20 +100,8 @@ public class Simulation {
 	 * Runs one tick of the simulation.
 	 */
 	public void tick() {
-		HashMap<Integer, Pixel> newPixels = new HashMap<>();
-
-		// Because all static pixels cannot move and other pixels cannot overwrite
-		// them, we place them in the new hashmap first
 		for (int i = this.height * this.width - 1; i >= 0; i--) {
-			if (this.pixels.containsKey(i) && this.pixels.get(i).getType() == Pixel.PixelType.STATIC) {
-				newPixels.put(i, this.pixels.get(i));
-			}
-		}
-
-		// Now we handle all the other pixels
-		// We want to loop bottom to top, since most pixels fall down
-		for (int i = this.height * this.width - 1; i >= 0; i--) {
-			if (this.pixels.containsKey(i) && this.pixels.get(i).getType() != Pixel.PixelType.STATIC) {
+			if (this.pixels.containsKey(i)) {
 				Pixel p = this.pixels.get(i);
 				List<Integer> moveLocations = p.move();
 
@@ -121,19 +109,17 @@ public class Simulation {
 				for (int j = 0; j < moveLocations.size(); j += 2) {
 					int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
 					// If the spot isn't taken and is in bounds, move the pixel there
-					if (!newPixels.containsKey(newLocation) && newLocation >= 0
-							&& newLocation < this.width * this.height
-							// Stop pixels from wrapping around the edges
+					if (!pixels.containsKey(newLocation) && newLocation >= 0 && newLocation < this.width * this.height
 							&& (i % width) + moveLocations.get(j) >= 0 && (i % width) + moveLocations.get(j) < width) {
-						newPixels.put(newLocation, p);
+						// Add the new pixel
+						pixels.put(newLocation, p);
+						// Remove old pixel
+						pixels.remove(i);
 						// We moved this pixel, move to the next one
 						break;
 					}
 				}
 			}
 		}
-
-		// Update the list of pixels
-		this.pixels = newPixels;
 	}
 }
