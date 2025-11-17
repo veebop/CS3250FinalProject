@@ -6,6 +6,11 @@ import java.util.List;
 public abstract class Pixel {
 
 	/**
+	 * The density of the pixel (Determines whether it should sink or float)
+	 */
+	private double density;
+
+	/**
 	 * The temperature of the picture
 	 */
 	private double temp;
@@ -30,15 +35,16 @@ public abstract class Pixel {
 	 * @param b    The blue color value of the pixel
 	 * @param a    The alpha value of the pixel
 	 */
-	public Pixel(PixelType type, double temp, int r, int g, int b, int a) {
+	public Pixel(PixelType type, double density, double temp, int r, int g, int b, int a) {
 		this.color = new PixelColor(r, g, b, a);
+		this.density = density;
 		this.temp = temp;
 		this.type = type;
 	}
 
 	/**
 	 * Returns the color of the pixel
-	 * 
+	 *
 	 * @return Color of the pixel
 	 */
 	public PixelColor getColor() {
@@ -52,6 +58,15 @@ public abstract class Pixel {
 	 */
 	public PixelType getType() {
 		return type;
+	}
+
+	/**
+	 * Gets the density of the pixel
+	 * 
+	 * @return Density of the pixel
+	 */
+	public double getDensity() {
+		return density;
 	}
 
 	/**
@@ -74,7 +89,7 @@ public abstract class Pixel {
 
 	/**
 	 * Gets potential move locations for a pixel, in order of priority
-	 * 
+	 *
 	 * @return A list of integers, where each two represent the relative movement a
 	 *         pixel could make
 	 */

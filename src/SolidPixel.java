@@ -22,8 +22,9 @@ public abstract class SolidPixel extends Pixel {
 	 * @param b         The blue color value of the pixel
 	 * @param a         The alpha value of the pixel
 	 */
-	SolidPixel(Pixel.PixelType type, double temp, double meltPoint, double subPoint, int r, int g, int b, int a) {
-		super(type, temp, r, g, b, a);
+	SolidPixel(Pixel.PixelType type, double density, double temp, double meltPoint, double subPoint, int r, int g,
+			int b, int a) {
+		super(type, density, temp, r, g, b, a);
 		this.meltPoint = meltPoint;
 		this.subPoint = subPoint;
 	}

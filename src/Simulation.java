@@ -108,15 +108,23 @@ public class Simulation {
 				// Loop through the new possible locations
 				for (int j = 0; j < moveLocations.size(); j += 2) {
 					int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
-					// If the spot isn't taken and is in bounds, move the pixel there
-					if (!pixels.containsKey(newLocation) && newLocation >= 0 && newLocation < this.width * this.height
+					// Check that the spot is in bounds
+					if (newLocation >= 0 && newLocation < this.width * this.height
 							&& (i % width) + moveLocations.get(j) >= 0 && (i % width) + moveLocations.get(j) < width) {
-						// Add the new pixel
-						pixels.put(newLocation, p);
-						// Remove old pixel
-						pixels.remove(i);
-						// We moved this pixel, move to the next one
-						break;
+						if (!pixels.containsKey(newLocation)) {
+							// Add the new pixel
+							pixels.put(newLocation, p);
+							// Remove old pixel
+							pixels.remove(i);
+							// We moved this pixel, move to the next one
+							break;
+						} else {
+							// Try to swap pixels
+							if (newLocation / this.width > i / this.width && pixels.get(newLocation).getDensity() < pixels.get(i).getDensity()) {
+								pixels.replace(i, pixels.replace(newLocation, p));
+								break;
+							}
+						}
 					}
 				}
 			}

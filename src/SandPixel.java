@@ -10,7 +10,7 @@ public class SandPixel extends DynamicPixel {
 	 */
 	public SandPixel(double temp) {
 		// We use rand here to add some variation to the color
-		super(temp, 1700.0, Double.MAX_VALUE, (int) (Math.random() * 15 + 230), (int) (Math.random() * 10 + 164),
+		super(2, temp, 1700.0, Double.MAX_VALUE, (int) (Math.random() * 15 + 230), (int) (Math.random() * 10 + 164),
 				(int) (Math.random() * 15 + 96), 255);
 	}
 

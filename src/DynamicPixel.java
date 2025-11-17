@@ -16,8 +16,8 @@ public abstract class DynamicPixel extends SolidPixel {
 	 * @param b         The blue color value of the pixel
 	 * @param a         The alpha value of the pixel
 	 */
-	public DynamicPixel(double temp, double meltPoint, double subPoint, int r, int g, int b, int a) {
-		super(Pixel.PixelType.DYNAMIC, temp, meltPoint, subPoint, r, g, b, a);
+	public DynamicPixel(double density, double temp, double meltPoint, double subPoint, int r, int g, int b, int a) {
+		super(Pixel.PixelType.DYNAMIC, density, temp, meltPoint, subPoint, r, g, b, a);
 	}
 
 	/**
