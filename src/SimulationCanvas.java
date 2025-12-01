@@ -157,6 +157,9 @@ public class SimulationCanvas extends Canvas {
 					case SAND:
 						sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
 						break;
+					case SAWDUST:
+						sim.setPixel(new SawdustPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
+						break;
 					case WALL:
 						sim.setPixel(new WallPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
 						break;

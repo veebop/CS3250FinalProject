@@ -1,5 +1,5 @@
 public enum PixelType {
-	OIL, SAND, WALL, WATER, ERASER;
+	OIL, SAND, SAWDUST, WALL, WATER, ERASER;
 
 	@Override
 	public String toString() {
@@ -8,6 +8,8 @@ public enum PixelType {
 			return "Oil";
 		case SAND:
 			return "Sand";
+		case SAWDUST:
+			return "Sawdust";
 		case WALL:
 			return "Wall";
 		case WATER:
