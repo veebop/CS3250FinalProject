@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 
@@ -46,23 +47,43 @@ public class ControlsScene extends VBox {
 
 		// Simulation speed slider
 		Slider simSpeedSlider = new Slider(1, 300, 30);
-		// TODO: Add a numerical text box for fine control
-		Label simSpeedLabel = new Label((long) simSpeedSlider.getValue() + " ticks per second");
+		TextField simSpeedText = new TextField("30");
+		Label simSpeedLabel = new Label("ticks per second");
+
 		simSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
-				Main.setTickRate(1_000_000_000 / newVal.longValue());
-				simSpeedLabel.setText(newVal.longValue() + " ticks per second");
+				if (oldVal != newVal) {
+					Main.setTickRate(1_000_000_000 / newVal.longValue());
+					simSpeedText.setText(String.valueOf(newVal.longValue()));
+				}
 			}
 		});
 
+		simSpeedText.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldVal, String newVal) {
+				if (oldVal != newVal) {
+					// Strip out anything that is not a number
+					long valNum = Long.parseLong(newVal.replaceAll("\\D", ""));
+					simSpeedText.setText(String.valueOf(valNum));
+					// Update slider
+					simSpeedSlider.setMax(Math.max(simSpeedSlider.getMax(), valNum));
+					simSpeedSlider.setValue(Math.max(valNum, 1));
+				}
+			}
+		});
+
+		// Debug information button
 		ToggleButton showDebug = new ToggleButton("Show Debug Information");
 		showDebug.setOnAction(e -> {
 			Main.setDebug(showDebug.isSelected());
 		});
 
+		// Add to scene
 		getChildren().addAll(title, startSimButton);
 		getChildren().add(brushTypeChoice);
 		getChildren().add(showDebug);
-		getChildren().addAll(simSpeedSlider, simSpeedLabel);
+		getChildren().addAll(simSpeedSlider, simSpeedText, simSpeedLabel);
 	}
 }
