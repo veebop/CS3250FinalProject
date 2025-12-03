@@ -24,6 +24,10 @@ public class SimulationCanvas extends Canvas {
 	 */
 	private double brushY;
 	/**
+	 * Size of the brush
+	 */
+	private int brushSize = 1;
+	/**
 	 * This boolean should be set to true to show some debug information
 	 */
 	private boolean debug = false;
@@ -48,8 +52,8 @@ public class SimulationCanvas extends Canvas {
 
 		// Create event to draw brush
 		this.setOnMouseMoved(e -> {
-			brushX = (int) (e.getX() / this.getWidth() * sim.getWidth()) * pixelRatio;
-			brushY = (int) (e.getY() / this.getWidth() * sim.getWidth()) * pixelRatio;
+			brushX = snapX(e.getX());
+			brushY = snapY(e.getY());
 		});
 
 		// Create a new pixel on click/drag
@@ -63,8 +67,8 @@ public class SimulationCanvas extends Canvas {
 		this.setOnMouseDragged(e -> {
 			double oldX = brushX;
 			double oldY = brushY;
-			brushX = (int) (e.getX() / this.getWidth() * sim.getWidth()) * pixelRatio;
-			brushY = (int) (e.getY() / this.getWidth() * sim.getWidth()) * pixelRatio;
+			brushX = snapX(e.getX());
+			brushY = snapY(e.getY());
 			if (brushX != oldX || brushY != oldY) {
 				addPixel();
 			}
@@ -112,7 +116,7 @@ public class SimulationCanvas extends Canvas {
 
 		// Draw the brush
 		if (!Double.isNaN(brushX)) {
-			gc.strokeRect(brushX, brushY, pixelRatio, pixelRatio);
+			gc.strokeRect(brushX, brushY, pixelRatio * brushSize, pixelRatio * brushSize);
 		}
 
 		// Draw the debug information
@@ -133,6 +137,15 @@ public class SimulationCanvas extends Canvas {
 	}
 
 	/**
+	 * This function sets the brush size
+	 *
+	 * @param size The new size for the brush (in pixels)
+	 */
+	public void setBrushSize(int size) {
+		this.brushSize = size;
+	}
+
+	/**
 	 * This function sets whether debug information should be shown
 	 *
 	 * @param showDebug Whether debug information should be shown
@@ -146,36 +159,77 @@ public class SimulationCanvas extends Canvas {
 	 */
 	public boolean addPixel() {
 		if (this.mouseDown) {
-			int pixelX = (int) (brushX / pixelRatio);
-			int pixelY = (int) (brushY / pixelRatio);
-			if (brushX >= 0) {
-				if (sim.getPixel(pixelX, pixelY) == null) {
-					switch (brushType) {
-					case OIL:
-						sim.setPixel(new OilPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
-						break;
-					case SAND:
-						sim.setPixel(new SandPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
-						break;
-					case SAWDUST:
-						sim.setPixel(new SawdustPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
-						break;
-					case WALL:
-						sim.setPixel(new WallPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
-						break;
-					case WATER:
-						sim.setPixel(new WaterPixel(10), (int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
-						break;
-					default:
-						break;
+			for (int x = 0; x < brushSize; x++) {
+				for (int y = 0; y < brushSize; y++) {
+					if (sim.getPixel(pixelX() + x, pixelY() + y) == null) {
+						switch (brushType) {
+						case OIL:
+							sim.setPixel(new OilPixel(10), pixelX() + x, pixelY() + y);
+							break;
+						case SAND:
+							sim.setPixel(new SandPixel(10), pixelX() + x, pixelY() + y);
+							break;
+						case SAWDUST:
+							sim.setPixel(new SawdustPixel(10), pixelX() + x, pixelY() + y);
+							break;
+						case WALL:
+							sim.setPixel(new WallPixel(10), pixelX() + x, pixelY() + y);
+							break;
+						case WATER:
+							sim.setPixel(new WaterPixel(10), pixelX() + x, pixelY() + y);
+							break;
+						default:
+							break;
+						}
+					} else if (brushType == PixelType.ERASER) {
+						sim.deletePixel(pixelX() + x, pixelY() + y);
 					}
-				} else if (brushType == PixelType.ERASER) {
-					sim.deletePixel((int) (brushX / pixelRatio), (int) (brushY / pixelRatio));
 				}
 			}
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * This function returns the X coordinate of the pixel under the brush
+	 *
+	 * @return X coordinate of pixel under brush
+	 */
+	private int pixelX() {
+		return (int) (brushX / pixelRatio);
+	}
+
+	/**
+	 * This function returns the Y coordinate of the pixel under the brush
+	 *
+	 * @return Y coordinate of pixel under brush
+	 */
+	private int pixelY() {
+		return (int) (brushY / pixelRatio);
+	}
+
+	/**
+	 * This function returns an X canvas coordinate that is the edge of a pixel
+	 *
+	 * @param canvasX Current canvas coordinate
+	 * @return X canvas coordinate
+	 */
+	private double snapX(double canvasX) {
+		return Math.min(Math.max(0, (int) (canvasX / this.getWidth() * sim.getWidth()) * pixelRatio),
+				this.getWidth() - brushSize * pixelRatio);
+	}
+
+	/**
+	 * This function returns an Y canvas coordinate that is the edge of a pixel
+	 *
+	 * @param canvasY Current canvas coordinate
+	 * @return Y canvas coordinate
+	 */
+	private double snapY(double canvasY) {
+		return Math.min(Math.max(0, (int) (canvasY / this.getHeight() * sim.getHeight()) * pixelRatio),
+				this.getHeight() - brushSize * pixelRatio);
+
 	}
 }
