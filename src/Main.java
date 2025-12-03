@@ -131,6 +131,15 @@ public class Main extends Application {
 	}
 
 	/**
+	 * This function sets the brush size for the current simulation
+	 *
+	 * @param size New brush size
+	 */
+	public static void setBrushSize(int size) {
+		simCanvas.setBrushSize(size);
+	}
+
+	/**
 	 * This function shows/hides debug information on the canvas
 	 *
 	 * @param showDebug Whether to show or hide the debug info

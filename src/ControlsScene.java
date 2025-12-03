@@ -45,10 +45,16 @@ public class ControlsScene extends VBox {
 		brushTypeChoice.setValue(PixelType.SAND);
 		Main.setBrush(brushTypeChoice.getValue());
 
+		// Debug information button
+		ToggleButton showDebug = new ToggleButton("Show Debug Information");
+		showDebug.setOnAction(e -> {
+			Main.setDebug(showDebug.isSelected());
+		});
+
 		// Simulation speed slider
 		Slider simSpeedSlider = new Slider(1, 300, 30);
 		TextField simSpeedText = new TextField("30");
-		Label simSpeedLabel = new Label("ticks per second");
+		Label simSpeedLabel = new Label("ticks per second\n ");
 
 		simSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -74,10 +80,26 @@ public class ControlsScene extends VBox {
 			}
 		});
 
-		// Debug information button
-		ToggleButton showDebug = new ToggleButton("Show Debug Information");
-		showDebug.setOnAction(e -> {
-			Main.setDebug(showDebug.isSelected());
+		// Brush size
+		Label brushSizeLabel = new Label("Brush Size");
+		TextField brushSizeText = new TextField("1");
+		brushSizeText.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
+				// Strip out anything that is not a number, don't allow brush size less than 1
+				int valNum = Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", "")));
+				brushSizeText.setText(String.valueOf(valNum));
+				Main.setBrushSize(valNum);
+			}
+		});
+		Button increaseSizeBtn = new Button("Brush+");
+		Button decreaseSizeBtn = new Button("Brush-");
+
+		increaseSizeBtn.setOnMouseClicked(e -> {
+			brushSizeText.setText(String.valueOf(Integer.parseInt(brushSizeText.getText()) + 1));
+		});
+		decreaseSizeBtn.setOnMouseClicked(e -> {
+			brushSizeText.setText(String.valueOf(Integer.parseInt(brushSizeText.getText()) - 1));
 		});
 
 		// Add to scene
@@ -85,5 +107,6 @@ public class ControlsScene extends VBox {
 		getChildren().add(brushTypeChoice);
 		getChildren().add(showDebug);
 		getChildren().addAll(simSpeedSlider, simSpeedText, simSpeedLabel);
+		getChildren().addAll(brushSizeLabel, increaseSizeBtn, brushSizeText, decreaseSizeBtn);
 	}
 }
