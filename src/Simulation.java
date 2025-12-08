@@ -102,7 +102,8 @@ public class Simulation {
 	public void tick() {
 		List<Pixel> movedPixels = new ArrayList<>();
 		for (int i = this.height * this.width - 1; i >= 0; i--) {
-			if (this.pixels.containsKey(i) && !movedPixels.contains(this.pixels.get(i))) {
+			if (this.pixels.containsKey(i) && this.pixels.get(i) instanceof Pixel
+					&& !movedPixels.contains(this.pixels.get(i))) {
 				Pixel p = this.pixels.get(i);
 				movedPixels.add(p);
 				List<Integer> moveLocations = p.move();
