@@ -20,8 +20,11 @@ public class ControlsScene extends VBox {
 
 	/**
 	 * Constructor for the ControlsScene
+	 *
+	 * @param startWidth  Starting width for the new simulation
+	 * @param startHeight Starting height for the new simulation
 	 */
-	public ControlsScene() {
+	public ControlsScene(int startWidth, int startHeight) {
 
 		Label title = new Label("Controls:");
 
@@ -107,7 +110,7 @@ public class ControlsScene extends VBox {
 
 		// New simulation
 		Label newSimLabel = new Label("Create new simluation\nWidth:");
-		TextField newSimWidthText = new TextField("50");
+		TextField newSimWidthText = new TextField(String.valueOf(startWidth));
 		newSimWidthText.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
@@ -118,7 +121,7 @@ public class ControlsScene extends VBox {
 			}
 		});
 		Label newSimHeightLabel = new Label("Height:");
-		TextField newSimHeightText = new TextField("50");
+		TextField newSimHeightText = new TextField(String.valueOf(startHeight));
 		newSimHeightText.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {

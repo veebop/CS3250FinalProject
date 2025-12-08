@@ -174,7 +174,7 @@ public class Main extends Application {
 		// Create a new, fresh scene
 		HBox hbox = new HBox();
 		simCanvas = new SimulationCanvas(sim);
-		controlsScene = new ControlsScene();
+		controlsScene = new ControlsScene(width, height);
 
 		hbox.getChildren().addAll(simCanvas, controlsScene);
 
