@@ -20,14 +20,15 @@ public class PixelColor {
 	private double a;
 
 	/**
-	 * Constructor for the color. All values must be between 0-255.
+	 * Constructor for the color. All values must be between 0-255, except for
+	 * alpha, which is an decimal between 0-1.
 	 * 
 	 * @param r The red color value
 	 * @param g The green color value
 	 * @param b the blue color value
 	 * @param a the alpha value
 	 */
-	PixelColor(int r, int g, int b, int a) {
+	PixelColor(int r, int g, int b, double a) {
 		setR(r);
 		setG(g);
 		setB(b);

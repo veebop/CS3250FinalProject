@@ -35,7 +35,7 @@ public abstract class Pixel {
 	 * @param b    The blue color value of the pixel
 	 * @param a    The alpha value of the pixel
 	 */
-	public Pixel(PixelType type, double density, double temp, int r, int g, int b, int a) {
+	public Pixel(PixelType type, double density, double temp, int r, int g, int b, double a) {
 		this.color = new PixelColor(r, g, b, a);
 		this.density = density;
 		this.temp = temp;

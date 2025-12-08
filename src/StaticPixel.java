@@ -16,7 +16,7 @@ public abstract class StaticPixel extends SolidPixel {
 	 * @param b         The blue color value of the pixel
 	 * @param a         The alpha value of the pixel
 	 */
-	public StaticPixel(double density, double temp, double meltPoint, double subPoint, int r, int g, int b, int a) {
+	public StaticPixel(double density, double temp, double meltPoint, double subPoint, int r, int g, int b, double a) {
 		super(Pixel.PixelType.STATIC, density, temp, meltPoint, subPoint, r, g, b, a);
 	}
 
