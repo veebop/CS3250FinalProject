@@ -1,9 +1,11 @@
 public enum PixelType {
-	OIL, SAND, SAWDUST, STEAM, WALL, WATER, ERASER;
+	AIR, OIL, SAND, SAWDUST, STEAM, WALL, WATER, ERASER;
 
 	@Override
 	public String toString() {
 		switch (this) {
+		case AIR:
+			return "Air";
 		case OIL:
 			return "Oil";
 		case SAND:

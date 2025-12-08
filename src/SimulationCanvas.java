@@ -164,6 +164,9 @@ public class SimulationCanvas extends Canvas {
 				for (int y = 0; y < brushSize; y++) {
 					if (sim.getPixel(pixelX() + x, pixelY() + y) == null) {
 						switch (brushType) {
+						case AIR:
+							sim.setPixel(new AirPixel(10), pixelX() + x, pixelY() + y);
+							break;
 						case OIL:
 							sim.setPixel(new OilPixel(10), pixelX() + x, pixelY() + y);
 							break;

@@ -123,7 +123,7 @@ public class Simulation {
 							break;
 						} else {
 							// Try to swap pixels
-							if (pixels.get(newLocation).getDensity() < pixels.get(i).getDensity()) {
+							if (pixels.get(newLocation).getDensity() < pixels.get(i).getDensity() && newLocation > i) {
 								pixels.replace(i, pixels.replace(newLocation, p));
 								break;
 							}
