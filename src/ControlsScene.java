@@ -112,9 +112,9 @@ public class ControlsScene extends VBox {
 			@Override
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
 				// Strip out anything that is not a number, don't allow width size less than 1
-				// or greater than 500
+				// or greater than 200
 				newSimWidthText.setText(
-						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 500)));
+						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 200)));
 			}
 		});
 		Label newSimHeightLabel = new Label("Height:");
@@ -123,9 +123,9 @@ public class ControlsScene extends VBox {
 			@Override
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
 				// Strip out anything that is not a number, don't allow width size less than 1
-				// or greater than 500
+				// or greater than 200
 				newSimHeightText.setText(
-						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 500)));
+						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 200)));
 			}
 		});
 		Button newSimBtn = new Button("Create new simulation");
