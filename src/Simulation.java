@@ -102,31 +102,33 @@ public class Simulation {
 	public void tick() {
 		List<Pixel> movedPixels = new ArrayList<>();
 		for (int i = this.height * this.width - 1; i >= 0; i--) {
-			if (this.pixels.containsKey(i) && this.pixels.get(i) instanceof Pixel
-					&& !movedPixels.contains(this.pixels.get(i))) {
+			if (this.pixels.containsKey(i) && !movedPixels.contains(this.pixels.get(i))) {
 				Pixel p = this.pixels.get(i);
 				movedPixels.add(p);
-				List<Integer> moveLocations = p.move();
+				if (p instanceof Pixel) {
+					List<Integer> moveLocations = p.move();
 
-				// Loop through the new possible locations
-				for (int j = 0; j < moveLocations.size(); j += 2) {
-					int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
-					// Check that the spot is in bounds
-					if (newLocation >= 0 && newLocation < this.width * this.height
-							&& (i % width) + moveLocations.get(j) >= 0 && (i % width) + moveLocations.get(j) < width) {
-						if (!pixels.containsKey(newLocation)) {
-							// Add the new pixel
-							pixels.put(newLocation, p);
-							// Remove old pixel
-							pixels.remove(i);
-							// We moved this pixel, move to the next one
-							break;
-						} else {
-							// Try to swap pixels
-							if (pixels.get(newLocation).getDensity() < pixels.get(i).getDensity()
-									&& newLocation - (newLocation % width) > i - width) {
-								pixels.replace(i, pixels.replace(newLocation, p));
+					// Loop through the new possible locations
+					for (int j = 0; j < moveLocations.size(); j += 2) {
+						int newLocation = i + moveLocations.get(j) + moveLocations.get(j + 1) * this.width;
+						// Check that the spot is in bounds
+						if (newLocation >= 0 && newLocation < this.width * this.height
+								&& (i % width) + moveLocations.get(j) >= 0
+								&& (i % width) + moveLocations.get(j) < width) {
+							if (!pixels.containsKey(newLocation)) {
+								// Add the new pixel
+								pixels.put(newLocation, p);
+								// Remove old pixel
+								pixels.remove(i);
+								// We moved this pixel, move to the next one
 								break;
+							} else {
+								// Try to swap pixels
+								if (pixels.get(newLocation).getDensity() < pixels.get(i).getDensity()
+										&& newLocation - (newLocation % width) > i - width) {
+									pixels.replace(i, pixels.replace(newLocation, p));
+									break;
+								}
 							}
 						}
 					}
