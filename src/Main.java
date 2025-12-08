@@ -12,14 +12,24 @@ public class Main extends Application {
 	private static Simulation sim;
 
 	/**
+	 * The main stage of the application
+	 */
+	private static Stage mainStage;
+
+	/**
 	 * Visual representation of the simulation
 	 */
 	private static SimulationCanvas simCanvas;
 
 	/**
+	 * Controls for the simulation
+	 */
+	private static ControlsScene controlsScene;
+
+	/**
 	 * Whether or not the simulation should be running
 	 */
-	private static boolean simRunning;
+	private static boolean simRunning = false;
 
 	/**
 	 * Time that the last tick was run
@@ -52,23 +62,16 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		sim = new Simulation(50, 50);
-
-		HBox hbox = new HBox();
-		simCanvas = new SimulationCanvas(sim);
-		ControlsScene controlsScene = new ControlsScene();
-
-		hbox.getChildren().addAll(simCanvas, controlsScene);
-
-		Scene scene = new Scene(hbox, 1000, 1000, Color.WHITESMOKE);
-		stage.setScene(scene);
-		stage.show();
+		// Create a default sim and display it
+		mainStage = stage;
+		createNewSim(50, 50);
+		mainStage.show();
 
 		new Thread(() -> {
 			long tickTime = Long.MAX_VALUE;
 
 			// Main loop
-			while (stage.isShowing()) {
+			while (mainStage.isShowing()) {
 				long now = System.nanoTime();
 
 				// Run the simulation one tick
@@ -110,7 +113,7 @@ public class Main extends Application {
 	/**
 	 * This function starts the simulation that is being shown
 	 */
-	public static void startSim() {
+	public static void resumeSim() {
 		simRunning = true;
 	}
 
@@ -156,5 +159,31 @@ public class Main extends Application {
 	 */
 	public static void setTickRate(long tickRate) {
 		tickDelay = tickRate;
+	}
+
+	/**
+	 * Creates and displays a new simulation
+	 *
+	 * @param width  Width of the new simulation
+	 * @param height Height of the new simulation
+	 */
+	public static void createNewSim(int width, int height) {
+		sim = new Simulation(width, height);
+
+		// Create a new, fresh scene
+		HBox hbox = new HBox();
+		simCanvas = new SimulationCanvas(sim);
+		controlsScene = new ControlsScene();
+
+		hbox.getChildren().addAll(simCanvas, controlsScene);
+
+		Scene scene = new Scene(hbox, 1000, 1000, Color.WHITESMOKE);
+		mainStage.setScene(scene);
+
+		// Set default values
+		lastTick = System.nanoTime();
+		tickDelay = 33_333_333; // 30 hz
+		simRunning = false;
+
 	}
 }

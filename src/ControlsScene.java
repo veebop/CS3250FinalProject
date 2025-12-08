@@ -13,6 +13,9 @@ import javafx.scene.layout.VBox;
  */
 public class ControlsScene extends VBox {
 
+	/**
+	 * Whether or not the simulation is running
+	 */
 	private boolean simRunning = false;
 
 	/**
@@ -31,7 +34,7 @@ public class ControlsScene extends VBox {
 				simRunning = false;
 			} else {
 				startSimButton.setText("Pause Simulation");
-				Main.startSim();
+				Main.resumeSim();
 				simRunning = true;
 			}
 		});
@@ -95,11 +98,41 @@ public class ControlsScene extends VBox {
 		Button increaseSizeBtn = new Button("Brush+");
 		Button decreaseSizeBtn = new Button("Brush-");
 
-		increaseSizeBtn.setOnMouseClicked(e -> {
+		increaseSizeBtn.setOnAction(e -> {
 			brushSizeText.setText(String.valueOf(Integer.parseInt(brushSizeText.getText()) + 1));
 		});
-		decreaseSizeBtn.setOnMouseClicked(e -> {
+		decreaseSizeBtn.setOnAction(e -> {
 			brushSizeText.setText(String.valueOf(Integer.parseInt(brushSizeText.getText()) - 1));
+		});
+
+		// New simulation
+		Label newSimLabel = new Label("Create new simluation\nWidth:");
+		TextField newSimWidthText = new TextField("50");
+		newSimWidthText.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
+				// Strip out anything that is not a number, don't allow width size less than 1
+				// or greater than 500
+				newSimWidthText.setText(
+						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 500)));
+			}
+		});
+		Label newSimHeightLabel = new Label("Height:");
+		TextField newSimHeightText = new TextField("50");
+		newSimHeightText.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
+				// Strip out anything that is not a number, don't allow width size less than 1
+				// or greater than 500
+				newSimHeightText.setText(
+						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 500)));
+			}
+		});
+		Button newSimBtn = new Button("Create new simulation");
+		newSimBtn.setOnAction((e) -> {
+			int width = Integer.parseInt(newSimWidthText.getText());
+			int height = Integer.parseInt(newSimHeightText.getText());
+			Main.createNewSim(width, height);
 		});
 
 		// Add to scene
@@ -108,5 +141,7 @@ public class ControlsScene extends VBox {
 		getChildren().add(showDebug);
 		getChildren().addAll(simSpeedSlider, simSpeedText, simSpeedLabel);
 		getChildren().addAll(brushSizeLabel, increaseSizeBtn, brushSizeText, decreaseSizeBtn);
+		getChildren().addAll(newSimLabel, newSimWidthText, newSimHeightLabel, newSimHeightText, newSimBtn);
 	}
+
 }
