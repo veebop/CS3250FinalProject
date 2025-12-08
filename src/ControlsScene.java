@@ -77,7 +77,11 @@ public class ControlsScene extends VBox {
 			public void changed(ObservableValue<? extends String> observable, String oldVal, String newVal) {
 				if (oldVal != newVal) {
 					// Strip out anything that is not a number
-					long valNum = Long.parseLong(newVal.replaceAll("\\D", ""));
+					newVal = newVal.replaceAll("\\D", "");
+					if (newVal.equals("")) {
+						newVal = "1";
+					}
+					long valNum = Long.parseLong(newVal);
 					simSpeedText.setText(String.valueOf(valNum));
 					// Update slider
 					simSpeedSlider.setMax(Math.max(simSpeedSlider.getMax(), valNum));
@@ -93,7 +97,11 @@ public class ControlsScene extends VBox {
 			@Override
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
 				// Strip out anything that is not a number, don't allow brush size less than 1
-				int valNum = Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", "")));
+				newVal = newVal.replaceAll("\\D", "");
+				if (newVal.equals("")) {
+					newVal = "1";
+				}
+				int valNum = Math.max(1, Integer.parseInt(newVal));
 				brushSizeText.setText(String.valueOf(valNum));
 				Main.setBrushSize(valNum);
 			}
@@ -116,8 +124,11 @@ public class ControlsScene extends VBox {
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
 				// Strip out anything that is not a number, don't allow width size less than 1
 				// or greater than 200
-				newSimWidthText.setText(
-						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 200)));
+				newVal = newVal.replaceAll("\\D", "");
+				if (newVal.equals("")) {
+					newVal = "1";
+				}
+				newSimWidthText.setText(String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal)), 200)));
 			}
 		});
 		Label newSimHeightLabel = new Label("Height:");
@@ -127,8 +138,11 @@ public class ControlsScene extends VBox {
 			public void changed(ObservableValue<? extends String> Observable, String oldVal, String newVal) {
 				// Strip out anything that is not a number, don't allow width size less than 1
 				// or greater than 200
-				newSimHeightText.setText(
-						String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal.replaceAll("\\D", ""))), 200)));
+				newVal = newVal.replaceAll("\\D", "");
+				if (newVal.equals("")) {
+					newVal = "1";
+				}
+				newSimHeightText.setText(String.valueOf(Math.min(Math.max(1, Integer.parseInt(newVal)), 200)));
 			}
 		});
 		Button newSimBtn = new Button("Create new simulation");
