@@ -6,31 +6,31 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	// SIMULATION
 	/**
 	 * The current simulation being shown
 	 */
 	private static Simulation sim;
-
-	/**
-	 * The main stage of the application
-	 */
-	private static Stage mainStage;
-
-	/**
-	 * Visual representation of the simulation
-	 */
-	private static SimulationCanvas simCanvas;
-
-	/**
-	 * Controls for the simulation
-	 */
-	private static ControlsScene controlsScene;
-
 	/**
 	 * Whether or not the simulation should be running
 	 */
 	private static boolean simRunning = false;
 
+	// GUI
+	/**
+	 * The main stage of the application
+	 */
+	private static Stage mainStage;
+	/**
+	 * Visual representation of the simulation
+	 */
+	private static SimulationCanvas simCanvas;
+	/**
+	 * Controls for the simulation
+	 */
+	private static ControlsScene controlsScene;
+
+	// TIMERS
 	/**
 	 * Time that the last tick was run
 	 */
@@ -67,6 +67,7 @@ public class Main extends Application {
 		createNewSim(50, 50);
 		mainStage.show();
 
+		// Create the main simulation loop
 		new Thread(() -> {
 			long tickTime = Long.MAX_VALUE;
 
