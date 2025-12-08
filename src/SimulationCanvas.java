@@ -46,7 +46,8 @@ public class SimulationCanvas extends Canvas {
 	 * @param sim The simulation this object will represent
 	 */
 	public SimulationCanvas(Simulation sim) {
-		super(750, 750);
+		super(Math.min(750, (int) (750 * ((double) sim.getWidth() / (double) sim.getHeight()))),
+				Math.min(750, (int) (750 * ((double) sim.getHeight() / (double) sim.getWidth()))));
 
 		this.sim = sim;
 
