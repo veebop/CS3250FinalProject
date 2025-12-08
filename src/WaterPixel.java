@@ -8,7 +8,7 @@ public class WaterPixel extends LiquidPixel {
 	 * @param temp Starting temperature of the water pixel
 	 */
 	public WaterPixel(double temp) {
-		super(1, temp, 1700.0, Double.MAX_VALUE, (int) (Math.random() * 10 + 0), (int) (Math.random() * 15 + 195),
+		super(1, temp, 0, 100, (int) (Math.random() * 10 + 0), (int) (Math.random() * 15 + 195),
 				(int) (Math.random() * 15 + 240), 255);
 	}
 

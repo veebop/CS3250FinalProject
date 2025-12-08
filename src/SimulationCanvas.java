@@ -173,6 +173,9 @@ public class SimulationCanvas extends Canvas {
 						case SAWDUST:
 							sim.setPixel(new SawdustPixel(10), pixelX() + x, pixelY() + y);
 							break;
+						case STEAM:
+							sim.setPixel(new SteamPixel(110), pixelX() + x, pixelY() + y);
+							break;
 						case WALL:
 							sim.setPixel(new WallPixel(10), pixelX() + x, pixelY() + y);
 							break;

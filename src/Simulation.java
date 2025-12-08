@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,9 +101,11 @@ public class Simulation {
 	 * Runs one tick of the simulation.
 	 */
 	public void tick() {
+		List<Pixel> movedPixels = new ArrayList<>();
 		for (int i = this.height * this.width - 1; i >= 0; i--) {
-			if (this.pixels.containsKey(i)) {
+			if (this.pixels.containsKey(i) && !movedPixels.contains(this.pixels.get(i))) {
 				Pixel p = this.pixels.get(i);
+				movedPixels.add(p);
 				List<Integer> moveLocations = p.move();
 
 				// Loop through the new possible locations
